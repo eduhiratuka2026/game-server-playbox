@@ -35,11 +35,13 @@ export class WorldStateService {
 	];
 
 	isInsideMap(tile: TilePosition): boolean {
+		const halfWidth = this.width/2;
+		const halfHeight = this.height/2;
 		return (
-			tile.x >= 0 &&
-			tile.z >= 0 &&
-			tile.x < this.width &&
-			tile.z < this.height
+			tile.x > -halfWidth &&
+			tile.z > -halfHeight &&
+			tile.x < halfWidth &&
+			tile.z < halfHeight
 		);
 	}
 

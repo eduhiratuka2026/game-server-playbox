@@ -39,4 +39,12 @@ export class GameGateway {
 
 		return result;
 	}
+
+	@SubscribeMessage('player:spawn')
+	handleSpawn(
+		@MessageBody()
+		data: {},
+	) {
+		this.server.emit('game:state', this.gameState.getState());
+	}
 }
