@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { GameService } from './game.service';
-import { GameStateService } from './game-state/game-state.service';
+import { GameStateService } from './game-state.service';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @Controller('game')
