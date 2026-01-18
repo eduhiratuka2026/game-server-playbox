@@ -1,34 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { Direction, Position } from './types';
+import { WorldStateService } from 'src/world/world-state.service';
 
 @Injectable()
 export class GameStateService {
+	constructor(private readonly world: WorldStateService) {}
+
 	private state = {
 		player: {
-			x: 0,
-			z: 0,
-			facing: 'front',
+			position: { x: 0, z: 0 } as Position,
+			facing: 'front' as Direction,
 		},
 	};
+	private PLAYER_SPEED = 0.05;
 
-	updatePlayer(data: any) {
-		const speed = 0.05;
+	updatePlayer(dx: number, dz: number, facing: Direction) {
+		const target: Position = {
+			x: this.state.player.position.x + dx,
+			z: this.state.player.position.z + dz,
+		};
 
-		this.state.player.x += data.dx * speed;
-		this.state.player.z += data.dz * speed;
-		this.state.player.facing = data.facing;
+		if (!this.world.canMoveTo(target)) {
+			return { moved: false };
+		}
 
-		const limit = 10 - 0.5;
-		this.state.player.x = Math.max(
-			-limit,
-			Math.min(limit, this.state.player.x),
-		);
-		this.state.player.z = Math.max(
-			-limit,
-			Math.min(limit, this.state.player.z),
-		);
+		this.state.player.position = target;
+		this.state.player.facing = facing;
+
+		return { moved: true };
 	}
 
 	getState() {
-		return this.state;
+		return {
+			player: this.state.player,
+			objects: this.world.getObjects(),
+		};
 	}
 }

@@ -3,9 +3,7 @@ import { GameStateService } from './game-state.service';
 
 @Controller('game')
 export class GameController {
-	constructor(
-		private readonly gameState: GameStateService,
-	) {}
+	constructor(private readonly gameState: GameStateService) {}
 
 	@Get('state')
 	getState() {
