@@ -28,6 +28,7 @@ export class GameGateway {
 			facing: Direction;
 		},
 	) {
+        console.log(`Chegou ${data.dx},${data.dz}`)
 		const result = this.gameState.updatePlayer(
 			data.dx,
 			data.dz,
